@@ -1,12 +1,17 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React from 'react';
 import { twMerge } from 'tailwind-merge';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { toast } from 'react-hot-toast';
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx';
 import { HiHome } from 'react-icons/hi';
 import { BiSearch } from 'react-icons/bi';
+import { FaUserAlt } from 'react-icons/fa';
 import Button from './Button';
+import useAuthModal from '@/hooks/useAuthModal';
+import { useUser } from '@/hooks/useUser';
 
 type Props = {
     children: React.ReactNode;
@@ -15,10 +20,23 @@ type Props = {
 
 const Header = ({ children, className }: Props) => {
     const router = useRouter();
+    const authModal = useAuthModal();
+    const supabaseClient = useSupabaseClient();
+    const { user } = useUser();
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        const { error } = await supabaseClient.auth.signOut();
 
-    }
+        // TODO: Reset playing songs
+
+        router.refresh();
+
+        if (error) {
+            toast.error(error.message);
+        } else {
+            toast.success('Logged out successfully');
+        }
+    };
 
     return (
         <div className={twMerge(`h-fit bg-gradient-to-b from-emerald-800 p-6`, className)}>
@@ -54,28 +72,44 @@ const Header = ({ children, className }: Props) => {
                 </div>
 
                 <div className='flex justify-between items-center gap-x-4'>
-                    <>
-                        <div>
-                            <Button 
-                                className='bg-transparent text-neutral-300 font-medium'
-                                onClick={() => {}}
-                            >
-                                Sign Up
-                            </Button>
-                        </div>
-                    </>
-                </div>
-                <div className='flex justify-between items-center gap-x-4'>
-                    <>
-                        <div>
-                            <Button 
-                                className='bg-white px-6 py-2'
-                                onClick={() => {}}
-                            >
-                                Log In
-                            </Button>
-                        </div>
-                    </>
+                    {
+                        user ? (
+                            <div className='flex gap-x-4 items-center'>
+                                <Button
+                                    className='bg-white px-6 py-2'
+                                    onClick={handleLogout}
+                                >
+                                    Logout
+                                </Button>
+                                <Button
+                                    className='bg-white'
+                                    onClick={() => router.push('/account')}
+                                >
+                                    <FaUserAlt />
+                                </Button>
+                            </div>
+                        ) : (
+                            <>
+                                <div>
+                                    <Button 
+                                        className='bg-transparent text-neutral-300 font-medium'
+                                        onClick={authModal.onClose}
+                                    >
+                                        Sign Up
+                                    </Button>
+                                </div>
+
+                                <div>
+                                    <Button 
+                                        className='bg-white px-6 py-2'
+                                        onClick={authModal.onOpen}
+                                    >
+                                        Log In
+                                    </Button>
+                                </div>
+                            </>
+                        )
+                    }
                 </div>
             </div>
 
