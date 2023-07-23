@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import AuthModal from '@/components/AuthModal';
+import UploadModal from '@/components/UploadModal';
 
 type Props = {}
 
@@ -19,6 +20,8 @@ const ModalProvider = (props: Props) => {
     return (
         <>
             <AuthModal />
+
+            <UploadModal />
         </>
     );
 };
