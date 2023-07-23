@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Song } from '@/types/songs';
 import MediaItem from '@/components/MediaItem';
+import LikeButton from '@/components/LikeButton';
+import { Song } from '@/types/songs';
 
 type Props = {
   songs: Song[]
@@ -31,6 +32,8 @@ const SearchResults = ({ songs }: Props) => {
                 onClick={() => {}} 
               />
             </div>
+
+            <LikeButton songId={song.id} />
           </div>
         ))
       }
