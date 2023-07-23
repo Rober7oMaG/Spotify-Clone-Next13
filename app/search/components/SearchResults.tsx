@@ -4,12 +4,15 @@ import React from 'react';
 import MediaItem from '@/components/MediaItem';
 import LikeButton from '@/components/LikeButton';
 import { Song } from '@/types/songs';
+import useOnPlay from '@/hooks/useOnPlay';
 
 type Props = {
   songs: Song[]
 };
 
 const SearchResults = ({ songs }: Props) => {
+  const onPlay = useOnPlay(songs);
+
   if (songs.length === 0) {
     return (
       <div className='text-neutral-400 px-6'>
@@ -29,7 +32,7 @@ const SearchResults = ({ songs }: Props) => {
             <div className='flex-1'>
               <MediaItem
                 song={song}
-                onClick={() => {}} 
+                onClick={(id: string) => onPlay(id)} 
               />
             </div>
 

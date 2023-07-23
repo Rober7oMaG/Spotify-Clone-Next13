@@ -6,6 +6,7 @@ import { Song } from '@/types/songs';
 import { useUser } from '@/hooks/useUser';
 import MediaItem from '@/components/MediaItem';
 import LikeButton from '@/components/LikeButton';
+import useOnPlay from '@/hooks/useOnPlay';
 
 type Props = {
     songs: Song[]
@@ -14,6 +15,7 @@ type Props = {
 const LikedContent = ({ songs }: Props) => {
     const router = useRouter();
     const { user, isLoading } = useUser();
+    const onPlay = useOnPlay(songs);
 
     useEffect(() => {
     if (!user && !isLoading) {
@@ -40,7 +42,7 @@ const LikedContent = ({ songs }: Props) => {
                         <div className='flex-1'>
                             <MediaItem 
                                 song={song} 
-                                onClick={() => {}}
+                                onClick={(id: string) => onPlay(id)}
                             />
                         </div>
 

@@ -3,12 +3,15 @@
 import { Song } from '@/types/songs';
 import React from 'react';
 import SongItem from '../../../components/SongItem';
+import useOnPlay from '@/hooks/useOnPlay';
 
 type Props = {
     songs: Song[]
 }
 
 const PageContent = ({ songs }: Props) => {
+    const onPlay = useOnPlay(songs);
+
     if (songs.length === 0) {
         return (
             <div className='mt-4 text-neutral-400'>
@@ -24,7 +27,7 @@ const PageContent = ({ songs }: Props) => {
                     <SongItem 
                         key={song.id}
                         song={song}
-                        onClick={() => {}}
+                        onClick={(id: string) => onPlay(id)}
                     />
                 ))
             }

@@ -8,6 +8,8 @@ import Box from './Box';
 import SidebarItem from './SidebarItem';
 import Library from './Library';
 import { Song } from '@/types/songs';
+import usePlayer from '@/hooks/usePlayer';
+import { twMerge } from 'tailwind-merge';
 
 type Props = {
     songs: Song[];
@@ -16,6 +18,7 @@ type Props = {
 
 const Sidebar = ({ children, songs }: Props) => {
     const pathname = usePathname();
+    const player = usePlayer();
 
     const routes = useMemo(() => [
         {
@@ -33,7 +36,7 @@ const Sidebar = ({ children, songs }: Props) => {
     ], [pathname]);
 
     return (
-        <div className='flex h-full'>
+        <div className={twMerge(`flex h-full`, player.activeId && 'h-[calc(100%-80px)]')}>
             <div 
                 className='hidden md:flex flex-col gap-y-2 bg-black h-full w-[300px] p-2'
             >
