@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 import useLoadImage from '@/hooks/useLoadImage';
 import { Song } from '@/types/songs';
+import usePlayer from '@/hooks/usePlayer';
 
 type Props = {
     song: Song;
@@ -9,12 +10,15 @@ type Props = {
 }
 
 const MediaItem = ({ song, onClick }: Props) => {
+    const player = usePlayer();
     const imagePath = useLoadImage(song);
 
     const handleClick = () => {
         if (onClick) {
             return onClick(song.id);
         }
+
+        player.setId(song.id);
     }
 
     return (
