@@ -97,7 +97,7 @@ const Header = ({ children, className }: Props) => {
                                 <div>
                                     <Button 
                                         className='bg-transparent text-neutral-300 font-medium'
-                                        onClick={authModal.onClose}
+                                        onClick={authModal.onOpen}
                                     >
                                         Sign Up
                                     </Button>
