@@ -4,7 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { BsPauseFill, BsPlayFill } from 'react-icons/bs';
 import { AiFillStepBackward, AiFillStepForward } from 'react-icons/ai';
 import { HiSpeakerWave, HiSpeakerXMark } from 'react-icons/hi2';
-const useSound = require('use-sound');
+
+/* eslint-disable */
+// @ts-ignore
+import useSound from 'use-sound';
+/* eslint-enable */
+
 import usePlayer from '@/hooks/usePlayer';
 import { Song } from '@/types/songs';
 import MediaItem from './MediaItem';
@@ -32,7 +37,7 @@ const PlayerContent = ({ song, songPath }: Props) => {
                 onPlayNext();
             },
             format: ['mp3']
-        }
+        },
     );
 
     const Icon = isPlaying ? BsPauseFill : BsPlayFill;
